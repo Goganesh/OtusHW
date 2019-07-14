@@ -7,7 +7,7 @@ import java.util.function.UnaryOperator;
 public class DIYarrayList<T> implements List<T> {
     private int size = 0;
     private Object[] objects = {};
-    private transient int modCount = 0;
+    private int modCount = 0;
 
     public boolean add(T t) {
         if (size + 1 > this.objects.length) {
@@ -56,15 +56,19 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     public ListIterator<T> listIterator() {
-        return new ListItr(0);
+        return new Itr(0);
     }
 
-    private class Itr implements Iterator<T> {
+    private class Itr implements Iterator<T>, ListIterator<T> {
         int cursor;       // index of next element to return
         int lastRet = -1; // index of last element returned; -1 if no such
         int expectedModCount = modCount;
 
         Itr() {}
+
+        Itr(int index) {
+            cursor = index;
+        }
 
         public boolean hasNext() {
             return cursor != size;
@@ -124,13 +128,6 @@ public class DIYarrayList<T> implements List<T> {
             if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
         }
-    }
-
-    private class ListItr extends Itr implements ListIterator<T> {
-        ListItr(int index) {
-            super();
-            cursor = index;
-        }
 
         public boolean hasPrevious() {
             return cursor != 0;
@@ -183,6 +180,7 @@ public class DIYarrayList<T> implements List<T> {
             }
         }
     }
+
 
     public ListIterator<T> listIterator(int index) {
         throw new UnsupportedOperationException();
@@ -241,6 +239,7 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     public void add(int index, T element) {
+
         Object[] newList = new Object[objects.length+1];
         int count = 0;
         for (int i = 0; i < size+1; i++) {
