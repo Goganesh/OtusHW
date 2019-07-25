@@ -12,6 +12,8 @@
     <modules>
         <module>hw01maven</module>
         <module>hw03arraylist</module>
+        <module>hw06annotation</module>
+        <module>hw06annotation</module>
     </modules>
 
     <properties>
