@@ -29,7 +29,7 @@ public class MyTest {
 
     @Test
     void test3() throws Exception {
-        if(y.equals(Math.max(x, y))){
+        if(x.equals(Math.max(x, y))){
 
         }else{
             throw new Exception();
