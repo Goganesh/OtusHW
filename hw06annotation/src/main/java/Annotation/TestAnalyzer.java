@@ -21,8 +21,9 @@ public class TestAnalyzer {
         List<Method> afterList = new ArrayList<>();
 
         for(Method method : allMethods){
+
             Annotation[] annotations = method.getDeclaredAnnotations();
-            if(checkMethodAnnotation(annotations,  Before.class)){
+            if(checkMethodAnnotation(annotations, Before.class)){
                 beforeList.add(method);
             }
             if(checkMethodAnnotation(annotations, Test.class)){
@@ -34,22 +35,23 @@ public class TestAnalyzer {
         }
 
         allTest = testList.size();
+
         for (Method method : testList){
-            Object forExec = clazz.newInstance();
-            for(Method method1 :beforeList){
-                method1.invoke(forExec);
-            }
+            Object testClassInstance = clazz.newInstance();
             try{
-                method.invoke(forExec);
+                for(Method method1 :beforeList){
+                    method1.invoke(testClassInstance);
+                }
+                method.invoke(testClassInstance);
                 testSuccess++;
             } catch (Exception e){
                 excepTest++;
-                for(Method method1 : afterList){
-                    method1.invoke(forExec);
-                }
-            }
-            for(Method method1 : afterList){
-                method1.invoke(forExec);
+            } finally {
+                try{
+                    for(Method method1 : afterList){
+                        method1.invoke(testClassInstance);
+                    }
+                } catch (Exception e) {}
             }
         }
 
@@ -64,4 +66,5 @@ public class TestAnalyzer {
         }
         return false;
     }
+
 }

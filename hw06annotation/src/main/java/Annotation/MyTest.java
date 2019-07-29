@@ -1,10 +1,5 @@
 package Annotation;
 
-import Annotation.After;
-import Annotation.Before;
-import Annotation.Test;
-
-@Test()
 public class MyTest {
     Integer x;
     Integer y;
@@ -37,13 +32,13 @@ public class MyTest {
     }
 
     @Before
-    void beforeTest(){
+    void beforeTest() throws Exception {
         x = 5;
         y = 130;
     }
 
     @After
-    void afterTest(){
+    void afterTest() throws Exception {
         x = null;
         y = null;
     }
