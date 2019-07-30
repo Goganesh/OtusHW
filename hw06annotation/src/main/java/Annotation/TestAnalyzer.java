@@ -20,22 +20,11 @@ public class TestAnalyzer {
         List<Method> testList = new ArrayList<>();
         List<Method> afterList = new ArrayList<>();
 
-        for(Method method : allMethods){
-
-            Annotation[] annotations = method.getDeclaredAnnotations();
-            if(checkMethodAnnotation(annotations, Before.class)){
-                beforeList.add(method);
-            }
-            if(checkMethodAnnotation(annotations, Test.class)){
-                testList.add(method);
-            }
-            if(checkMethodAnnotation(annotations, After.class)){
-                afterList.add(method);
-            }
-        }
+        fillMethodList(beforeList, allMethods, Before.class);
+        fillMethodList(afterList, allMethods, After.class);
+        fillMethodList(testList, allMethods, Test.class);
 
         allTest = testList.size();
-
         for (Method method : testList){
             Object testClassInstance = clazz.newInstance();
             try{
@@ -56,6 +45,15 @@ public class TestAnalyzer {
         }
 
         System.out.println("all test - "+ allTest + "\n"+"success test - "+ testSuccess+ "\n"+"exception test - "+ excepTest + "\n");
+    }
+
+    public static void fillMethodList(List<Method> methodList, Method[] methods,Class clazz){
+        for(Method method : methods) {
+            Annotation[] annotations = method.getDeclaredAnnotations();
+            if (checkMethodAnnotation(annotations, clazz)) {
+                methodList.add(method);
+            }
+        }
     }
 
     public static boolean checkMethodAnnotation(Annotation[] annotations, Class clazz){
