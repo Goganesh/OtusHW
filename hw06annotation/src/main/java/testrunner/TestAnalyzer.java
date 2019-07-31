@@ -2,7 +2,7 @@ package testrunner;
 
 import annotation.After;
 import annotation.Test;
-import test.Before;
+import annotation.Before;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

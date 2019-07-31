@@ -1,4 +1,4 @@
-import annotation.MyTest;
+import test.MyTest;
 import testrunner.TestAnalyzer;
 
 import java.lang.reflect.InvocationTargetException;
