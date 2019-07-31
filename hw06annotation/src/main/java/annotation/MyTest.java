@@ -1,4 +1,6 @@
-package Annotation;
+package annotation;
+
+import test.Before;
 
 public class MyTest {
     Integer x;
