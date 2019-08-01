@@ -1,8 +1,8 @@
-package test;
+package ru.otus.homework.test;
 
-import annotation.After;
-import annotation.Before;
-import annotation.Test;
+import ru.otus.homework.annotation.After;
+import ru.otus.homework.annotation.Before;
+import ru.otus.homework.annotation.Test;
 
 public class MyTest {
     Integer x;

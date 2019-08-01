@@ -1,8 +1,8 @@
-package testrunner;
+package ru.otus.homework.testrunner;
 
-import annotation.After;
-import annotation.Test;
-import annotation.Before;
+import ru.otus.homework.annotation.After;
+import ru.otus.homework.annotation.Test;
+import ru.otus.homework.annotation.Before;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,9 +37,11 @@ public class TestAnalyzer {
             } catch (Exception e){
                 excepTest++;
             } finally {
-                try{
-                    AnalyzerHelper.runMethods(afterList, testClassInstance);
-                } catch (Exception e) {}
+                for(Method method1 :afterList){
+                    try {
+                        method1.invoke(testClassInstance);
+                    } catch (Exception e) {}
+                }
             }
         }
         System.out.println("all test - "+ allTest + "\n"+"success test - "+ testSuccess+ "\n"+"exception test - "+ excepTest + "\n");
