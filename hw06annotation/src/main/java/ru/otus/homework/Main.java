@@ -1,4 +1,4 @@
-package ru.otus.homework.main;
+package ru.otus.homework;
 
 import ru.otus.homework.test.MyTest;
 import ru.otus.homework.testrunner.TestAnalyzer;
