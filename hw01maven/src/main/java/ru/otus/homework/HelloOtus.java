@@ -1,4 +1,4 @@
-package Main;
+package ru.otus.homework;
 
 import java.util.List;
 import com.google.common.collect.Lists;

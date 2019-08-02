@@ -1,4 +1,4 @@
-package Main;
+package ru.otus.homework.list;
 
 import org.junit.Test;
 
