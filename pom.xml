@@ -15,6 +15,7 @@
         <module>hw06annotation</module>
         <module>hw06annotation</module>
         <module>hw08magiclog</module>
+        <module>hw11atm</module>
     </modules>
 
     <properties>
