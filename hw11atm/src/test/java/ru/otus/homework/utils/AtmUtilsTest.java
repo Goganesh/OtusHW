@@ -4,10 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.otus.homework.exception.NoFundsInBalance;
 import ru.otus.homework.exception.NotCorrectAmount;
-import ru.otus.homework.model.Atm;
-import ru.otus.homework.model.Banknot;
-import ru.otus.homework.model.Casset;
-import ru.otus.homework.model.Nominal;
+import ru.otus.homework.model.atm.Atm;
+import ru.otus.homework.model.atm.Banknot;
+import ru.otus.homework.model.atm.Casset;
+import ru.otus.homework.model.atm.Nominal;
+import ru.otus.homework.model.client.Client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,17 @@ import static org.junit.Assert.*;
 public class AtmUtilsTest {
 
     Atm atm;
+    Client client;
 
     @Before
     public void before(){
         atm = new Atm();
+        client = new Client();
     }
 
     public void after(){
         atm = null;
+        client = null;
     }
 
     @Test
@@ -33,8 +37,8 @@ public class AtmUtilsTest {
         banknots.add(new Banknot(Nominal.FIFTY));
         banknots.add(new Banknot(Nominal.ONE_HUNDRED));
         banknots.add(new Banknot(Nominal.FIFTY));
-
-        AtmUtils.takeBanknotes(atm, banknots);
+        client.setCash(banknots);
+        atm.takeBanknotesFromClient(client);
         List<Casset> notNullCassets = AtmUtils.findNotNullCassets(atm);
         assertTrue(notNullCassets.size()==2);
     }
@@ -51,8 +55,8 @@ public class AtmUtilsTest {
         banknots.add(new Banknot(Nominal.FIFTY));
         banknots.add(new Banknot(Nominal.ONE_HUNDRED));
         banknots.add(new Banknot(Nominal.FIFTY));
-
-        AtmUtils.takeBanknotes(atm, banknots);
+        client.setCash(banknots);
+        atm.takeBanknotesFromClient(client);
 
         boolean firstCheck = false;
         boolean secondCheck = false;
@@ -74,7 +78,7 @@ public class AtmUtilsTest {
     @Test
     public void testTakeBanknot() {
         Banknot banknot = new Banknot(Nominal.FIFTY);
-        AtmUtils.takeBanknot(atm, banknot);
+        atm.takeBanknot(banknot);
         for(Casset casset : atm.getCassets()){
             if(casset.getNominal().equals(banknot.getNominal())){
                 assertTrue(casset.getBanknots().get(0).equals(banknot));
@@ -87,14 +91,16 @@ public class AtmUtilsTest {
         boolean test1 = false;
         boolean test2 = false;
         try {
-            AtmUtils.giveBanknotes(atm, -5);
+            client.setMoney(-5);
+            atm.giveBanknotesToClient(client);
         } catch (NotCorrectAmount e) {
             test1 = true;
         } catch (NoFundsInBalance noFundsInBalance) {
             noFundsInBalance.printStackTrace();
         }
         try {
-            AtmUtils.giveBanknotes(atm, 0);
+            client.setMoney(0);
+            atm.giveBanknotesToClient(client);
         } catch (NotCorrectAmount e) {
             test2 = true;
         } catch (NoFundsInBalance noFundsInBalance) {
@@ -109,10 +115,12 @@ public class AtmUtilsTest {
         List<Banknot> banknots = new ArrayList<>();
         banknots.add(new Banknot(Nominal.ONE_HUNDRED));
         banknots.add(new Banknot(Nominal.TWO_HUNDRED));
-        AtmUtils.takeBanknotes(atm, banknots);
-        int tempAmount = AtmUtils.getTotalAmount(atm);
-        List<Banknot> banknotList = AtmUtils.giveBanknotes(atm, 100);
-        int amount = AtmUtils.getTotalAmount(atm);
+        client.setCash(banknots);
+        atm.takeBanknotesFromClient(client);
+        int tempAmount = atm.getTotalAmount();
+        client.setMoney(100);
+        List<Banknot> banknotList = atm.giveBanknotesToClient(client);
+        int amount = atm.getTotalAmount();
         boolean checkAtmBalance = false;
         if(tempAmount - amount == 100){
             checkAtmBalance = true;

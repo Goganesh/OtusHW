@@ -1,7 +1,7 @@
 package ru.otus.homework.utils;
 
-import ru.otus.homework.model.Banknot;
-import ru.otus.homework.model.Nominal;
+import ru.otus.homework.model.atm.Banknot;
+import ru.otus.homework.model.atm.Nominal;
 
 import java.util.List;
 

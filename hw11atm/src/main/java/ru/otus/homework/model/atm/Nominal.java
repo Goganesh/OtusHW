@@ -1,4 +1,4 @@
-package ru.otus.homework.model;
+package ru.otus.homework.model.atm;
 
 public enum Nominal {
     FIFTY,

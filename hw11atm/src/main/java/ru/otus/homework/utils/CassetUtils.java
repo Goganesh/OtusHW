@@ -1,6 +1,6 @@
 package ru.otus.homework.utils;
 
-import ru.otus.homework.model.Casset;
+import ru.otus.homework.model.atm.Casset;
 
 import java.util.Comparator;
 

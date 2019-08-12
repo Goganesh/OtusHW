@@ -1,4 +1,4 @@
-package ru.otus.homework.model;
+package ru.otus.homework.model.atm;
 
 import lombok.Getter;
 import lombok.Setter;
