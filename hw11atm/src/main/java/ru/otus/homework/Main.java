@@ -1,35 +1,34 @@
 package ru.otus.homework;
 
-import ru.otus.homework.model.atm.Atm;
-import ru.otus.homework.model.atm.Banknot;
-import ru.otus.homework.model.atm.Nominal;
+import ru.otus.homework.exception.NotCorrectNominalForCasset;
+import ru.otus.homework.model.atm.*;
 import ru.otus.homework.exception.NoFundsInBalance;
 import ru.otus.homework.exception.NotCorrectAmount;
-import ru.otus.homework.model.client.Client;
-import ru.otus.homework.utils.AtmUtils;
+import ru.otus.homework.model.atm.Banknot;
+import ru.otus.homework.model.client.ClientImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws NoFundsInBalance, NotCorrectAmount {
-
-        Client client = new Client();
+    public static void main(String[] args) throws NoFundsInBalance, NotCorrectAmount, NotCorrectNominalForCasset {
+        ClientImpl client = new ClientImpl();
 
         List<Banknot> banknots = new ArrayList<>();
-        banknots.add(new Banknot(Nominal.FIVE_HUNDRED));
-        banknots.add(new Banknot(Nominal.FIFTY));
-        banknots.add(new Banknot(Nominal.ONE_HUNDRED));
-        banknots.add(new Banknot(Nominal.FIVE_HUNDRED));
-        banknots.add(new Banknot(Nominal.ONE_HUNDRED));
-        banknots.add(new Banknot(Nominal.TWO_HUNDRED));
-        banknots.add(new Banknot(Nominal.FIFTY));
+        banknots.add(new Banknot(Banknot.Nominal.FIVE_HUNDRED));
+        banknots.add(new Banknot(Banknot.Nominal.FIFTY));
+        banknots.add(new Banknot(Banknot.Nominal.ONE_HUNDRED));
+        banknots.add(new Banknot(Banknot.Nominal.FIVE_HUNDRED));
+        banknots.add(new Banknot(Banknot.Nominal.ONE_HUNDRED));
+        banknots.add(new Banknot(Banknot.Nominal.TWO_HUNDRED));
+        banknots.add(new Banknot(Banknot.Nominal.FIFTY));
         client.setCash(banknots);
 
-        Atm atm = new Atm();
-        AtmUtils.printAtmBalance(atm);
+        Atm atm = new AtmImpl();
+
+        atm.printAtmBalance();
         atm.takeBanknotesFromClient(client);
-        AtmUtils.printAtmBalance(atm);
+        atm.printAtmBalance();
         System.out.println();
 
         client.setMoney(1500);
@@ -38,8 +37,7 @@ public class Main {
             System.out.println(banknot);
         }
 
-
-        AtmUtils.printAtmBalance(atm);
+        atm.printAtmBalance();
         System.out.println();
 
     }
