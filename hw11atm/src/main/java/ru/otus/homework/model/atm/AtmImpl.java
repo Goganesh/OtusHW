@@ -38,7 +38,7 @@ public class AtmImpl implements Atm {
 
     private void takeBanknot(Banknot banknot) throws NotCorrectNominalForCasset {
         for(AbstractCasset casset : cassets){
-            if (casset.getNominalType().equals(banknot.getNominal())){
+            if (casset.nominalType.equals(banknot.getNominal())){
                 casset.addBanknotToCasset(banknot);
             }
         }
@@ -47,7 +47,7 @@ public class AtmImpl implements Atm {
     @Override
     public void printAtmBalance(){
         for(AbstractCasset casset : cassets){
-            System.out.println("Номинал - " + casset.getNominalType() + " кол-во купюр - " + casset.banknots.size());
+            System.out.println("Номинал - " + casset.nominalType + " кол-во купюр - " + casset.banknots.size());
         }
         System.out.println("Общая сумма - " + getTotalAmount());
     }
@@ -99,8 +99,8 @@ public class AtmImpl implements Atm {
         for(Banknot banknot : banknotListForGiving) {
             for(AbstractCasset casset : cassets){
                 if(banknot.getNominal().equals(casset.nominalType)){
-                    int index = casset.getBanknots().size()-1;
-                    casset.getBanknots().remove(index);
+                    int index = casset.banknots.size()-1;
+                    casset.banknots.remove(index);
                 }
             }
         }

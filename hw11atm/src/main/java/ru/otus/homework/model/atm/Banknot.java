@@ -1,16 +1,25 @@
 package ru.otus.homework.model.atm;
 
-import lombok.Getter;
-import lombok.Setter;
 
 public class Banknot {
-    @Getter
-    @Setter
     private Nominal nominal;
-
-    @Getter
-    @Setter
     private int value;
+
+    public Nominal getNominal() {
+        return nominal;
+    }
+
+    public void setNominal(Nominal nominal) {
+        this.nominal = nominal;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
 
     public Banknot(Nominal nominal) {
         this.nominal = nominal;
