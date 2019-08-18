@@ -1,11 +1,15 @@
 package ru.otus.homework.model.atm;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import ru.otus.homework.exception.NotCorrectNominalForCasset;
 
 import java.util.List;
 
 public abstract class AbstractCasset {
+    @Getter(AccessLevel.PROTECTED)
     protected List<Banknot> banknots;
+    @Getter(AccessLevel.PROTECTED)
     protected final Banknot.Nominal nominalType;
 
     public AbstractCasset(Banknot.Nominal nominalType) {
