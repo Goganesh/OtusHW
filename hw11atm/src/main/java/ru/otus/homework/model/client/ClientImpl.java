@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.otus.homework.exception.NoFundsInBalance;
 import ru.otus.homework.exception.NotCorrectAmount;
-import ru.otus.homework.model.atm.Banknot;
+import ru.otus.homework.model.atm.Nominal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +12,18 @@ import java.util.List;
 public class ClientImpl implements Client {
     @Getter
     @Setter
-    private List<Banknot> cash = new ArrayList<>();
+    private List<Nominal> cash = new ArrayList<>();
     @Getter
     @Setter
     private int money = 0;
 
     @Override
-    public List<Banknot> giveBanknotsToAtm() {
+    public List<Nominal> giveBanknotsToAtm() {
         return cash;
     }
 
     @Override
-    public int takeMoneyFromAtm() throws NoFundsInBalance, NotCorrectAmount {
+    public int takeMoneyFromAtm(){
         return money;
     }
 }

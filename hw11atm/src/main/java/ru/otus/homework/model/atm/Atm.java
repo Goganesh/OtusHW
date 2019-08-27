@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface Atm {
     int getTotalAmount();
-    void takeBanknotesFromClient(Client clientInterface) throws NotCorrectNominalForCasset;
-    List<Banknot> giveBanknotesToClient(Client clientInterface) throws NoFundsInBalance, NotCorrectAmount;
+    void takeBanknotesFromClient(Client clientInterface);
+    List<Nominal> giveBanknotesToClient(Client clientInterface) throws NoFundsInBalance, NotCorrectAmount;
     void printAtmBalance();
 }
