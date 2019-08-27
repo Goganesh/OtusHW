@@ -2,7 +2,6 @@ package ru.otus.homework.model.atm;
 
 import ru.otus.homework.exception.NoFundsInBalance;
 import ru.otus.homework.exception.NotCorrectAmount;
-import ru.otus.homework.exception.NotCorrectNominalForCasset;
 import ru.otus.homework.model.client.Client;
 
 import java.util.List;

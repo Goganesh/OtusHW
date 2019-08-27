@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.otus.homework.exception.NoFundsInBalance;
 import ru.otus.homework.exception.NotCorrectAmount;
-import ru.otus.homework.exception.NotCorrectNominalForCasset;
 import ru.otus.homework.model.client.ClientImpl;
 
 import java.util.ArrayList;

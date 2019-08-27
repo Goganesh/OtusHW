@@ -1,6 +1,5 @@
 package ru.otus.homework;
 
-import ru.otus.homework.exception.NotCorrectNominalForCasset;
 import ru.otus.homework.model.atm.*;
 import ru.otus.homework.exception.NoFundsInBalance;
 import ru.otus.homework.exception.NotCorrectAmount;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws NoFundsInBalance, NotCorrectAmount, NotCorrectNominalForCasset {
+    public static void main(String[] args) throws NoFundsInBalance, NotCorrectAmount {
 
         Atm atm = new AtmImpl();
 
