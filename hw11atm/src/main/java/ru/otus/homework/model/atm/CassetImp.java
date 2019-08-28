@@ -4,8 +4,13 @@ public class CassetImp implements Casset {
     private Nominal nominal;
     private int banknotCount = 0;
 
-    public CassetImp(Nominal nominal) {
+    CassetImp(Nominal nominal) {
         this.nominal = nominal;
+    }
+
+    CassetImp(Nominal nominal, int banknotCount) {
+        this.nominal = nominal;
+        this.banknotCount = banknotCount;
     }
 
     @Override
