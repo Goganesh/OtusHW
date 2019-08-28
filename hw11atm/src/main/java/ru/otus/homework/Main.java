@@ -11,6 +11,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws NoFundsInBalance, NotCorrectAmount {
 
+        Casset d = new CassetImp(Nominal.FIVE_HUNDRED, 10);
+
         Atm atm = new AtmImpl();
 
         ClientImpl client = new ClientImpl();

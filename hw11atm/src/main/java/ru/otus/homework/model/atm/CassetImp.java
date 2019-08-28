@@ -8,7 +8,7 @@ public class CassetImp implements Casset {
         this.nominal = nominal;
     }
 
-    CassetImp(Nominal nominal, int banknotCount) {
+    public CassetImp(Nominal nominal, int banknotCount) {
         this.nominal = nominal;
         this.banknotCount = banknotCount;
     }
