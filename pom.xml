@@ -13,8 +13,6 @@
         <module>hw01maven</module>
         <module>hw03arraylist</module>
         <module>hw06annotation</module>
-        <module>hw06annotation</module>
-        <module>hw08magiclog</module>
         <module>hw11atm</module>
     </modules>
 
@@ -36,7 +34,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
