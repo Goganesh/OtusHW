@@ -15,6 +15,7 @@
         <module>hw06annotation</module>
         <module>hw11atm</module>
         <module>hw13department</module>
+        <module>hw15json</module>
     </modules>
 
     <properties>
