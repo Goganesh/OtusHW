@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 
 public class Executor<T> {
     void create(T objectData){
-        checkAnnotation(T);
+        checkAnnotation(objectData.getClass());
     }
     void update(T objectData){
 
