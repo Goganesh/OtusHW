@@ -16,6 +16,7 @@
         <module>hw11atm</module>
         <module>hw13department</module>
         <module>hw15json</module>
+        <module>hw17orm</module>
     </modules>
 
     <properties>
