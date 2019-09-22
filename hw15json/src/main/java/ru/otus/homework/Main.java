@@ -3,9 +3,7 @@ package ru.otus.homework;
 import com.google.gson.Gson;
 import ru.otus.homework.example.Example;
 import ru.otus.homework.example.ExampleExample;
-import ru.otus.homework.service.JsonAccumulator;
 import ru.otus.homework.service.JsonService;
-import ru.otus.homework.service.Traverse;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;

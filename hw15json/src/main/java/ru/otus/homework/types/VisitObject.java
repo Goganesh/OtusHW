@@ -2,7 +2,7 @@ package ru.otus.homework.types;
 
 import lombok.Getter;
 import ru.otus.homework.element.AbstractField;
-import ru.otus.homework.element.Service;
+import ru.otus.homework.element.JsonAccumulator;
 
 import java.lang.reflect.Field;
 
@@ -17,7 +17,7 @@ public class VisitObject extends AbstractField {
     }
 
     @Override
-    public void accept(Service service) {
-        service.onVisit(this);
+    public void accept(JsonAccumulator jsonAccumulator) {
+        jsonAccumulator.onVisit(this);
     }
 }

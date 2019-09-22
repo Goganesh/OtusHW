@@ -2,7 +2,7 @@ package ru.otus.homework.element;
 
 import ru.otus.homework.types.*;
 
-public interface Service {
+public interface JsonAccumulator {
     void onVisit(VisitArray value);
     void onVisit(FinVisitArray value);
     void onVisit(VisitObject value);

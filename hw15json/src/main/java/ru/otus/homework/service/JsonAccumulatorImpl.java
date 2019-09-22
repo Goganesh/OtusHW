@@ -2,15 +2,13 @@ package ru.otus.homework.service;
 
 import lombok.Getter;
 import ru.otus.homework.element.AbstractField;
-import ru.otus.homework.element.Service;
+import ru.otus.homework.element.JsonAccumulator;
 import ru.otus.homework.types.*;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class JsonAccumulator implements Service {
+public class JsonAccumulatorImpl implements JsonAccumulator {
     @Getter
     protected StringBuilder stringBuilder = new StringBuilder();
 

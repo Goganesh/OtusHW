@@ -1,22 +1,21 @@
 package ru.otus.homework.service;
 
-import org.omg.CORBA.OBJ_ADAPTER;
-import ru.otus.homework.element.Service;
+import ru.otus.homework.element.JsonAccumulator;
 import ru.otus.homework.types.*;
 
 import java.lang.reflect.*;
 import java.util.*;
 
 public class Traverse {
-    public void traverse(Field mainField, Object object, Service service) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public void traverse(Field mainField, Object object, JsonAccumulator jsonAccumulator) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         if(object == null) {
-            new VisitNull(null).accept(service);
+            new VisitNull(null).accept(jsonAccumulator);
             return;
         } else if (mainField == null && isPrimitiveVisit(object)) {
-            new VisitPrimitive(null, object).accept(service);
+            new VisitPrimitive(null, object).accept(jsonAccumulator);
             return;
         } else if (mainField == null && object.getClass().equals(String.class)) {
-            new VisitString(null, object).accept(service);
+            new VisitString(null, object).accept(jsonAccumulator);
             return;
         }
 
@@ -25,22 +24,22 @@ public class Traverse {
             toArray.setAccessible(true);
             Object obj = toArray.invoke(object);
             if(obj != null){
-                traverse(null, obj, service);
+                traverse(null, obj, jsonAccumulator);
             }
             return;
         } else if(object.getClass().isArray()){
-            new VisitArray(mainField, object).accept(service);
+            new VisitArray(mainField, object).accept(jsonAccumulator);
             int length = Array.getLength(object);
             for (int i = 0; i < length; i++) {
                 if(Array.get(object, i) != null) {
-                    traverse(null, Array.get(object, i), service);
+                    traverse(null, Array.get(object, i), jsonAccumulator);
                     if (i != length - 1) {
-                        new VisitNext(null, object).accept(service);
+                        new VisitNext(null, object).accept(jsonAccumulator);
                     }
                 }
             }
         } else if (!(isPrimitiveVisit(object))){
-            new VisitObject(mainField, object).accept(service);
+            new VisitObject(mainField, object).accept(jsonAccumulator);
         }
         Field[] fields = object.getClass().getDeclaredFields();
         int length = fields.length;
@@ -62,26 +61,26 @@ public class Traverse {
             }
             if (field.getType().isPrimitive()){
                 if(length <= i){
-                    new VisitPrimitive(field, object).accept(service);
+                    new VisitPrimitive(field, object).accept(jsonAccumulator);
                 } else {
-                    new VisitPrimitive(field, object).accept(service);
-                    new VisitNext(null, object).accept(service);
+                    new VisitPrimitive(field, object).accept(jsonAccumulator);
+                    new VisitNext(null, object).accept(jsonAccumulator);
                 }
             } else if (field.getType().equals(String.class)){
                 if(length == i) {
-                    new VisitString(field, object).accept(service);
+                    new VisitString(field, object).accept(jsonAccumulator);
                 } else {
-                    new VisitString(field, object).accept(service);
-                    new VisitNext(null, object).accept(service);
+                    new VisitString(field, object).accept(jsonAccumulator);
+                    new VisitNext(null, object).accept(jsonAccumulator);
                 }
             } else {
-                traverse(field, field.get(object), service);
+                traverse(field, field.get(object), jsonAccumulator);
             }
         }
         if(object.getClass().isArray()){
-            new FinVisitArray(null, object).accept(service);
+            new FinVisitArray(null, object).accept(jsonAccumulator);
         } else if(!(isPrimitiveVisit(object))){
-            new FinVisitObject(null, object).accept(service);
+            new FinVisitObject(null, object).accept(jsonAccumulator);
         }
     }
 
