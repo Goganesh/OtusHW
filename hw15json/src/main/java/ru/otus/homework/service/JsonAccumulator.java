@@ -30,7 +30,7 @@ public class JsonAccumulator implements Service {
             if (value.getField() == null) {
                 stringBuilder.append("{");
             } else {
-                stringBuilder.append("\""+value.getField().getName()+"\":{" );
+                stringBuilder.append("\"").append(value.getField().getName()).append("\":{" );
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,14 +48,14 @@ public class JsonAccumulator implements Service {
         try{
             if(value.getField() == null && isPrimitiveVisit(value.getObj())){
                 if(value.getObj().getClass().equals(Character.class)){
-                    stringBuilder.append("\""+value.getObj()+"\"");
+                    stringBuilder.append("\"").append(value.getObj()).append("\"");
                 } else {
                     stringBuilder.append(value.getObj());
                 }
             } else if (checkFieldPrimitive(value)) {
                 stringBuilder.append(value.getField().get(value.getObj()));
             } else {
-                stringBuilder.append("\""+value.getField().getName()+"\":" + value.getField().get(value.getObj()));
+                stringBuilder.append("\"").append(value.getField().getName()).append("\":").append(value.getField().get(value.getObj()));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class JsonAccumulator implements Service {
                     }
                 }
             }else {
-                stringBuilder.append("\"" + value.getField().getName() + "\":\"" + value.getField().get(value.getObj()) + "\"");
+                stringBuilder.append("\"").append(value.getField().getName()).append("\":\"").append(value.getField().get(value.getObj())).append("\"");
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
