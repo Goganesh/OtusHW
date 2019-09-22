@@ -1,5 +1,6 @@
 package ru.otus.homework.service;
 
+import org.omg.CORBA.OBJ_ADAPTER;
 import ru.otus.homework.element.Service;
 import ru.otus.homework.types.*;
 
@@ -8,8 +9,20 @@ import java.util.*;
 
 public class Traverse {
     public void traverse(Field mainField, Object object, Service service) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        if (Collection.class.isAssignableFrom(object.getClass())){
-            Method toArray = object.getClass().getDeclaredMethod("toArray");
+        if(object == null) {
+            new VisitNull(null).accept(service);
+            return;
+        } else if (mainField == null && isPrimitiveVisit(object)) {
+            new VisitPrimitive(null, object).accept(service);
+            return;
+        } else if (mainField == null && object.getClass().equals(String.class)) {
+            new VisitString(null, object).accept(service);
+            return;
+        }
+
+        if (Collection.class.isAssignableFrom(object.getClass()) || AbstractList.class.isAssignableFrom(object.getClass()) ){
+            Method toArray = object.getClass().getMethod("toArray");
+            toArray.setAccessible(true);
             Object obj = toArray.invoke(object);
             if(obj != null){
                 traverse(null, obj, service);
@@ -75,6 +88,7 @@ public class Traverse {
     private boolean isPrimitiveVisit(Object object){
         return object.getClass().equals(Integer.class) || object.getClass().equals(Byte.class) ||
                 object.getClass().equals(Short.class) || object.getClass().equals(Long.class) ||
-                object.getClass().equals(Character.class) || object.getClass().equals(Boolean.class);
+                object.getClass().equals(Character.class) || object.getClass().equals(Boolean.class)
+                || object.getClass().equals(Float.class) || object.getClass().equals(Double.class);
     }
 }

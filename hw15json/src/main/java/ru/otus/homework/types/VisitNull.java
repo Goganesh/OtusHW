@@ -6,18 +6,13 @@ import ru.otus.homework.element.Service;
 
 import java.lang.reflect.Field;
 
-public class VisitArray extends AbstractField {
-    @Getter
-    private final Object obj;
-
-    public VisitArray(Field field, Object array) {
+public class VisitNull extends AbstractField{
+    public VisitNull(Field field) {
         super(field);
-        this.obj = array;
     }
 
-    public void accept(Service service){
+    @Override
+    public void accept(Service service) {
         service.onVisit(this);
     }
-
-
 }

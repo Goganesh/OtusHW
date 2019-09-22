@@ -16,6 +16,6 @@ public class FinVisitArray extends AbstractField {
     }
 
     public void accept(Service service){
-        service.visit(this);
+        service.onVisit(this);
     }
 }

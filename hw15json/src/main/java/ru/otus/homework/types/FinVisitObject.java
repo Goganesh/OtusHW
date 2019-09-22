@@ -18,6 +18,6 @@ public class FinVisitObject extends AbstractField {
 
     @Override
     public void accept(Service service) {
-        service.visit(this);
+        service.onVisit(this);
     }
 }

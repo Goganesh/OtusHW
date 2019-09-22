@@ -3,11 +3,12 @@ package ru.otus.homework.element;
 import ru.otus.homework.types.*;
 
 public interface Service {
-    void visit(VisitArray value);
-    void visit(FinVisitArray value);
-    void visit(VisitObject value);
-    void visit(FinVisitObject value);
-    void visit(VisitPrimitive value);
-    void visit(VisitString value);
-    void visit(VisitNext value);
+    void onVisit(VisitArray value);
+    void onVisit(FinVisitArray value);
+    void onVisit(VisitObject value);
+    void onVisit(FinVisitObject value);
+    void onVisit(VisitPrimitive value);
+    void onVisit(VisitString value);
+    void onVisit(VisitNext value);
+    void onVisit(VisitNull value);
 }
