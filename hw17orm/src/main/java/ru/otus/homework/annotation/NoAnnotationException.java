@@ -1,4 +1,4 @@
-package ru.otus.homework.exception;
+package ru.otus.homework.annotation;
 
 public class NoAnnotationException extends Exception {
 }
