@@ -2,17 +2,14 @@ package ru.otus.homework;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.homework.annotation.NoAnnotationException;
 import ru.otus.homework.api.service.DbExecutor;
 import ru.otus.homework.api.sessionmanager.SessionManager;
-import ru.otus.homework.dao.DaoRepository;
+import ru.otus.homework.dao.DaoImpl;
 import ru.otus.homework.model.Account;
 import ru.otus.homework.model.User;
 import ru.otus.homework.server.DataSourceH2;
 import ru.otus.homework.service.DbExecutorImpl;
 import ru.otus.homework.sessionmanager.SessionManagerJdbc;
-
-import java.sql.SQLException;
 
 public class Main {
 
@@ -24,11 +21,11 @@ public class Main {
         DataSourceH2 server = new DataSourceH2();
 
         SessionManager sessionManager = new SessionManagerJdbc(server);
-        DaoRepository<User> daoRepository = new DaoRepository<>(sessionManager);
-        DbExecutor<User> dbExecutor = new DbExecutorImpl<>(daoRepository);
+        //DaoImpl<User> daoImpl = new DaoImpl<>(sessionManager);
+        DbExecutor<User> dbExecutor = new DbExecutorImpl<>(sessionManager);
 
-        DaoRepository<Account> daoRepository1 = new DaoRepository<>(sessionManager);
-        DbExecutor<Account> dbExecutor1 = new DbExecutorImpl<>(daoRepository);
+        //DaoImpl<Account> daoImpl1 = new DaoImpl<>(sessionManager);
+        DbExecutor<Account> dbExecutor1 = new DbExecutorImpl<>(sessionManager);
 
         User user1 = new User("Georgy", 29);
         User user2 = new User("Lyubov", 26);
