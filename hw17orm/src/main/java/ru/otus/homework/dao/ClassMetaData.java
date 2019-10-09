@@ -9,13 +9,35 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlHelper<T> {
+public class ClassMetaData<T> {
+    Field annotatedField;
+    Field[] fields;
+    List<String> paramsForUpdate;
+    List<String> paramsForInsert;
+    String selectStatement;
+    String updateStatement;
+    String insertStatement;
+    Method[] methods;
 
-    private SqlHelper(){
+
+    public ClassMetaData(){
+    }
+
+    public void fillClassData(Class<T> clazz) throws NoAnnotationException {
+        if(fields == null) {
+            fields = clazz.getDeclaredFields();
+            annotatedField = getAnnotatedField(clazz);
+            methods = clazz.getDeclaredMethods();
+            paramsForUpdate = getParamsForUpdate();
+            paramsForInsert = getParamsForInsert();
+            selectStatement = getSelectStatement(clazz);
+            updateStatement = getUpdateStatement(clazz);
+            insertStatement = getInsertStatement(clazz);
+        }
     }
 
     private Field getAnnotatedField(Class<T> clazz) throws NoAnnotationException {
-        for (Field field : clazz.getDeclaredFields()){
+        for (Field field : fields){
             for(Annotation annotation : field.getDeclaredAnnotations()){
                 if(annotation.annotationType().equals(Id.class)){
                     return field;
@@ -25,8 +47,7 @@ public class SqlHelper<T> {
         throw new NoAnnotationException();
     }
 
-    public Method findSetterMethodForField(Field field, Class<T> entity){
-        Method[] methods = entity.getDeclaredMethods();
+    public Method findSetterMethodForField(Field field){
         String methodNameInLowerCase = ("set" + field.getName()).toLowerCase();
         for(Method method : methods){
             if(method.getName().toLowerCase().equals(methodNameInLowerCase)){
@@ -36,20 +57,17 @@ public class SqlHelper<T> {
         return null;
     }
 
-    public String getSelectStatement(Class<T> clazz) throws NoAnnotationException {
+    private String getSelectStatement(Class<T> clazz){
         StringBuilder insertStatement = new StringBuilder();
         insertStatement.append("select * from ");
         insertStatement.append(clazz.getSimpleName());
-        Field annotatedField = getAnnotatedField(clazz);
         insertStatement.append(" where ").append(annotatedField.getName()).append("  = ?");
         return insertStatement.toString();
     }
 
-    public String getUpdateStatement(Class<T> clazz) throws NoAnnotationException {
+    private String getUpdateStatement(Class<T> clazz){
         StringBuilder updateStatement = new StringBuilder();
         updateStatement.append("update ").append(clazz.getSimpleName()).append(" set ");
-        Field[] fields = clazz.getDeclaredFields();
-        Field annotatedField = getAnnotatedField(clazz);
         int size = fields.length;
         for(int i = 0; i < size; i++){
             if(annotatedField.equals(fields[i]))
@@ -62,11 +80,9 @@ public class SqlHelper<T> {
         return updateStatement.toString();
     }
 
-    public String getInsertStatement(Class<T> clazz) throws NoAnnotationException {
+    private String getInsertStatement(Class<T> clazz) {
         StringBuilder insertStatement = new StringBuilder();
         insertStatement.append("insert into ").append(clazz.getSimpleName()).append("(");
-        Field[] fields = clazz.getDeclaredFields();
-        Field annotatedField = getAnnotatedField(clazz);
         int size = fields.length;
         for(int i = 0; i < size; i++){
             if(annotatedField.equals(fields[i]))
@@ -85,11 +101,8 @@ public class SqlHelper<T> {
         return insertStatement.toString();
     }
 
-    public List<String> getParamsForUpdate(T clazz) throws NoAnnotationException {
+    private List<String> getParamsForUpdate() {
         List<String> params = new ArrayList<>();
-        Field[] fields = clazz.getClass().getDeclaredFields();
-        Class tClass = clazz.getClass();
-        Field annotatedField = getAnnotatedField(tClass);
         int size = fields.length;
         for(int i = 0; i < size; i++){
             if(annotatedField.equals(fields[i]))
@@ -100,11 +113,8 @@ public class SqlHelper<T> {
         return params;
     }
 
-    public List<String> getParamsForInsert(T clazz) throws NoAnnotationException {
+    private List<String> getParamsForInsert() {
         List<String> params = new ArrayList<>();
-        Field[] fields = clazz.getClass().getDeclaredFields();
-        Class tClass = clazz.getClass();
-        Field annotatedField = getAnnotatedField(tClass);
         int size = fields.length;
         for(int i = 0; i < size; i++){
             if(annotatedField.equals(fields[i]))

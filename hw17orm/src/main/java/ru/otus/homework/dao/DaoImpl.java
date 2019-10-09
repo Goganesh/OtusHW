@@ -14,17 +14,18 @@ import java.util.Optional;
 public class DaoImpl<T> implements Dao<T> {
     private static Logger logger = LoggerFactory.getLogger(DaoImpl.class);
     private final Connection connection;
-    private final SqlHelper<T> sqlHelper;
+    private final ClassMetaData<T> classMetaData;
 
 
     public DaoImpl(Connection connection) {
         this.connection = connection;
-        this.sqlHelper = new SqlHelper<>();
+        this.classMetaData = new ClassMetaData<>();
     }
 
     @Override
     public Optional<T> findById(long id, Class<T> clazz) throws NoAnnotationException, SQLException, IllegalAccessException {
-        String sql =  sqlHelper.getSelectStatement(clazz);
+        classMetaData.fillClassData(clazz);
+        String sql =  classMetaData.selectStatement;
         T obj = null;
         try {
              obj = clazz.newInstance();
@@ -34,7 +35,7 @@ public class DaoImpl<T> implements Dao<T> {
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setLong(1, id);
             try (ResultSet rs = pst.executeQuery()) {
-                loadDataToObject(obj, rs, clazz);
+                loadDataToObject(obj, rs);
             }catch(Exception e){
                 logger.error(e.getMessage());
             }
@@ -42,17 +43,18 @@ public class DaoImpl<T> implements Dao<T> {
         return Optional.ofNullable(obj);
     }
 
-    private void loadDataToObject(T obj, ResultSet rs, Class clazz) throws SQLException, InvocationTargetException, IllegalAccessException {
+    private void loadDataToObject(T obj, ResultSet rs) throws SQLException, InvocationTargetException, IllegalAccessException {
+
         while(rs.next()) {
-            Field[] fields = clazz.getDeclaredFields();
+            Field[] fields = classMetaData.fields;
             for (Field field : fields){
                 if(field.getType().equals(int.class)) {
                     int value = rs.getInt(field.getName());
-                    Method method = sqlHelper.findSetterMethodForField(field, clazz);
+                    Method method = classMetaData.findSetterMethodForField(field);
                     method.invoke(obj, value);
                 } else if (field.getType().equals(String.class)){
                     String value = rs.getString(field.getName());
-                    Method method = sqlHelper.findSetterMethodForField(field, clazz);
+                    Method method = classMetaData.findSetterMethodForField(field);
                     method.invoke(obj, value);
                 }
             }
@@ -61,15 +63,16 @@ public class DaoImpl<T> implements Dao<T> {
 
     @Override
     public void updateEntity(T entity) throws NoAnnotationException, SQLException {
-        String sql = sqlHelper.getUpdateStatement((Class)entity.getClass());
-        List<String> params = sqlHelper.getParamsForUpdate(entity);
+        classMetaData.fillClassData((Class)entity.getClass());
+        String sql = classMetaData.updateStatement;
+        List<String> paramsForUpdate = classMetaData.paramsForUpdate;
         Savepoint savePoint = connection.setSavepoint("savePointName");
 
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
-            for (int idx = 0; idx < params.size(); idx++) {
+            for (int idx = 0; idx < paramsForUpdate.size(); idx++) {
                 Field[] fields = entity.getClass().getDeclaredFields();
                 for(Field field : fields){
-                    if(field.getName().equals(params.get(idx))){
+                    if(field.getName().equals(paramsForUpdate.get(idx))){
                         if(field.getType().equals(String.class)){
                             field.setAccessible(true);
                             try {
@@ -101,13 +104,14 @@ public class DaoImpl<T> implements Dao<T> {
 
     @Override
     public long saveEntity(T entity) throws SQLException, NoAnnotationException {
-        String sql = sqlHelper.getInsertStatement((Class)entity.getClass());
-        List<String> params = sqlHelper.getParamsForInsert(entity);
+        classMetaData.fillClassData((Class)entity.getClass());
+        String sql = classMetaData.insertStatement;
+        List<String> params = classMetaData.paramsForInsert;
         Savepoint savePoint = connection.setSavepoint("savePointName");
 
         try (PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             for (int idx = 0; idx < params.size(); idx++) {
-                Field[] fields = entity.getClass().getDeclaredFields();
+                Field[] fields = classMetaData.fields;
                 for(Field field : fields){
                     if(field.getName().equals(params.get(idx))){
                         if(field.getType().equals(String.class)){

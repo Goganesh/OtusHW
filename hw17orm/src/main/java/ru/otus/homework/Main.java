@@ -27,13 +27,15 @@ public class Main {
         //DaoImpl<Account> daoImpl1 = new DaoImpl<>(sessionManager);
         DbExecutor<Account> dbExecutor1 = new DbExecutorImpl<>(sessionManager);
 
+
         User user1 = new User("Georgy", 29);
         User user2 = new User("Lyubov", 26);
         User user3 = new User("David", 4);
+
         //System.out.println("id " + dbExecutor.create(user1));
         User loadUser = dbExecutor.Load(7, User.class);
         System.out.println(loadUser);
-        loadUser.setAge(500);
+        loadUser.setAge(80);
         dbExecutor.update(loadUser);
         System.out.println(dbExecutor.Load(7, User.class));
 
