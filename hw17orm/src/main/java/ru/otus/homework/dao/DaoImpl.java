@@ -73,17 +73,10 @@ public class DaoImpl<T> implements Dao<T> {
                 Field[] fields = entity.getClass().getDeclaredFields();
                 for(Field field : fields){
                     if(field.getName().equals(paramsForUpdate.get(idx))){
-                        if(field.getType().equals(String.class)){
+                        if(field.getType().equals(String.class) || field.getType().equals(int.class)){
                             field.setAccessible(true);
                             try {
-                                pst.setString(idx + 1,(String) field.get(entity));
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                        } else if (field.getType().equals(int.class)){
-                            field.setAccessible(true);
-                            try {
-                                pst.setInt(idx + 1,(Integer) field.get(entity));
+                                pst.setObject(idx+1, field.get(entity));
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
                             }
