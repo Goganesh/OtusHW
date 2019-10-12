@@ -21,10 +21,7 @@ public class Main {
         DataSourceH2 server = new DataSourceH2();
 
         SessionManager sessionManager = new SessionManagerJdbc(server);
-        //DaoImpl<User> daoImpl = new DaoImpl<>(sessionManager);
         DbExecutor<User> dbExecutor = new DbExecutorImpl<>(sessionManager);
-
-        //DaoImpl<Account> daoImpl1 = new DaoImpl<>(sessionManager);
         DbExecutor<Account> dbExecutor1 = new DbExecutorImpl<>(sessionManager);
 
 
