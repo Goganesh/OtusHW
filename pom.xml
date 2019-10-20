@@ -17,6 +17,7 @@
         <module>hw13department</module>
         <module>hw15json</module>
         <module>hw17orm</module>
+        <module>hw19hibernate</module>
     </modules>
 
     <properties>
