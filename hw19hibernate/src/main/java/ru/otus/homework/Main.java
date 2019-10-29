@@ -1,13 +1,13 @@
 package ru.otus.homework;
 
-import org.hibernate.SessionFactory;
-import ru.otus.homework.api.service.DbService;
-import ru.otus.homework.api.sessionmanager.SessionManager;
+import ru.otus.homework.api.dao.UserDao;
+import ru.otus.homework.dao.UserDaoImpl;
 import ru.otus.homework.database.DbServer;
 import ru.otus.homework.model.AddressDataSet;
 import ru.otus.homework.model.PhoneDataSet;
 import ru.otus.homework.model.User;
-import ru.otus.homework.service.DbServiceImpl;
+import ru.otus.homework.service.UserServiceImpl;
+import ru.otus.homework.sessionmanager.SessionManagerHibernate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,12 @@ import static org.junit.Assert.assertTrue;
 public class Main {
     public static void main(String[] args) {
         DbServer server = new DbServer();
-        DbService<User> userDbService = new DbServiceImpl<>();
-        User user = new User();
+        SessionManagerHibernate sessionManager = new SessionManagerHibernate(DbServer.getSessionFactory());
 
+        UserDao userDao = new UserDaoImpl(sessionManager);
+        UserServiceImpl userService = new UserServiceImpl(userDao);
+
+        User user = new User();
         String name = "Georgy";
         user.setName(name);
         int age = 29;
@@ -43,12 +46,12 @@ public class Main {
         user.setPhoneDataSet(listPhone);
 
 
-        long id = userDbService.create(user);
+        long id = userService.saveUser(user);
         //check create
         System.out.println("id is " + id);
 
         //check load
-        User loadedUser = userDbService.Load(id, User.class);
+        User loadedUser = userService.getUser(id);
         System.out.println("age is " + loadedUser.getAge() + " name is " + loadedUser.getName());
         System.out.println("street is " + loadedUser.getAddressDataSet().getStreet());
 

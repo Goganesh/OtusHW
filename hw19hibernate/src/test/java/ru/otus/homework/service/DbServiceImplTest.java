@@ -4,11 +4,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import ru.otus.homework.api.service.DbService;
+import ru.otus.homework.api.dao.UserDao;
+import ru.otus.homework.api.service.UserService;
+import ru.otus.homework.api.sessionmanager.SessionManager;
+import ru.otus.homework.dao.UserDaoImpl;
 import ru.otus.homework.database.DbServer;
 import ru.otus.homework.model.AddressDataSet;
 import ru.otus.homework.model.PhoneDataSet;
 import ru.otus.homework.model.User;
+import ru.otus.homework.sessionmanager.SessionManagerHibernate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +21,9 @@ import static org.junit.Assert.assertTrue;
 
 public class DbServiceImplTest {
     DbServer server = new DbServer();
-    private DbService<User> userDbService;
+    private SessionManagerHibernate sessionManager;
+    private UserDao userDao;
+    private UserService userService;
 
     private static long id;
     private static String name = "Georgy";
@@ -28,12 +34,16 @@ public class DbServiceImplTest {
 
     @Before
     public void before(){
-        userDbService = new DbServiceImpl<>();
+        sessionManager = new SessionManagerHibernate(DbServer.getSessionFactory());
+        userDao = new UserDaoImpl(sessionManager);
+        userService = new UserServiceImpl(userDao);
     }
 
     @After
     public void after(){
-        userDbService = null;
+        sessionManager = null;
+        userDao = null;
+        userService = null;
     }
 
 
@@ -62,7 +72,7 @@ public class DbServiceImplTest {
         user.setPhoneDataSet(listPhone);
 
 
-        id = userDbService.create(user);
+        id = userService.saveUser(user);
 
         //check create User
         assertTrue(id != 0);
@@ -72,7 +82,7 @@ public class DbServiceImplTest {
     @DisplayName("2. Проверка загрузки сохраненного юзера и вложенных сущностей")
     public void checkLoadMethod() {
         checkCreateMethod();
-        User loadedUser = userDbService.Load(id, User.class);
+        User loadedUser = userService.getUserWithAllInfo(id);
 
         //check loadedUser
         assertTrue(loadedUser.getId() == id && loadedUser.getAge() == age && loadedUser.getName().equals(name));
@@ -113,9 +123,9 @@ public class DbServiceImplTest {
         updatedUser.setAddressDataSet(addressDataSet);
         updatedUser.setPhoneDataSet(listPhone);
 
-        userDbService.update(updatedUser);
+        userService.updateUser(updatedUser);
 
-        updatedUser = userDbService.Load(id,  User.class);
+        updatedUser = userService.getUserWithAllInfo(id);
 
         //check updatedUser
         assertTrue(updatedUser.getId() == id && updatedUser.getAge() == newAge && updatedUser.getName().equals(newName));
