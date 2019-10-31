@@ -17,6 +17,7 @@ import ru.otus.homework.sessionmanager.SessionManagerHibernate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DbServiceImplTest {
@@ -75,7 +76,7 @@ public class DbServiceImplTest {
         id = userService.saveUser(user);
 
         //check create User
-        assertTrue(id != 0);
+        assertNotEquals(id , 0);
     }
 
     @Test

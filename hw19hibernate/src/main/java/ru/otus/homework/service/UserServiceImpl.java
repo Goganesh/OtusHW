@@ -95,7 +95,8 @@ public class UserServiceImpl implements UserService {
             sessionManager.beginSession();
             try {
                 User user = dao.findById(id);
-                Hibernate.initialize(user);
+                Hibernate.initialize(user.getAddressDataSet());
+                Hibernate.initialize(user.getPhoneDataSet());
 
                 logger.info("loaded user: {}", user.getId());
                 return user;
