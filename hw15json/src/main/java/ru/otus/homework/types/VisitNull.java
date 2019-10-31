@@ -1,19 +1,13 @@
 package ru.otus.homework.types;
 
-import lombok.Getter;
 import ru.otus.homework.element.AbstractField;
 import ru.otus.homework.element.JsonAccumulator;
 
 import java.lang.reflect.Field;
 
-public class FinVisitObject extends AbstractField {
-
-    @Getter
-    private final Object obj;
-
-    public FinVisitObject(Field field, Object obj) {
+public class VisitNull extends AbstractField{
+    public VisitNull(Field field) {
         super(field);
-        this.obj=obj;
     }
 
     @Override
