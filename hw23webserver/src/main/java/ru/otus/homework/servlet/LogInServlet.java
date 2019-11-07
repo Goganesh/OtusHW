@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,12 +15,17 @@ public class LogInServlet extends HttpServlet {
 
     private static final int EXPIRE_INTERVAL = 90; //seconds
     private final String CONTENT_TYPE = "text/html;charset=utf-8";
-    private final TemplateProcessor templateProcessor;
-    private UserService userService;
+    private final String USER_NOT_FOUND_TEXT = "User is not found";
+    private final String ADMIN_PAGE_PATH = "hw23webserver/src/main/resources/templates/Admin.html";
+    private final String INDEX_FILE_NAME = "LogIn.html";
+    private final String TEMPLATE_VARIABLE_STATUS = "logInStatus";
 
-    public LogInServlet(UserService userService) {
+    private final TemplateProcessor templateProcessor;
+    private final UserService userService;
+
+    public LogInServlet(UserService userService, TemplateProcessor templateProcessor) {
         this.userService = userService;
-        this.templateProcessor = new TemplateProcessor();
+        this.templateProcessor = templateProcessor;
     }
 
     @Override
@@ -36,15 +39,18 @@ public class LogInServlet extends HttpServlet {
             resp.setContentType(CONTENT_TYPE);
             resp.setStatus(HttpStatus.OK_200);
 
-            File file = new File("hw23webserver/src/main/resources/Admin.html");
-            byte[] bytes = Files.readAllBytes(file.toPath());
-            resp.getWriter().println(new String(bytes));
+            FileInputStream inputStream = new FileInputStream(ADMIN_PAGE_PATH);
+            byte[] buf = new byte[inputStream.available()];
+            inputStream.read(buf);
+            //File file = new File(ADMIN_PAGE_PATH);
+            //byte[] bytes = Files.readAllBytes(file.toPath());
+            resp.getWriter().println(new String(buf));//new String(bytes));
         } else {
             Map<String, Object> pageVariables = new HashMap<>();
-            pageVariables.put("logInStatus", String.valueOf("User is not found"));
+            pageVariables.put(TEMPLATE_VARIABLE_STATUS, USER_NOT_FOUND_TEXT);
 
             resp.setContentType(CONTENT_TYPE);
-            resp.getWriter().println(templateProcessor.getPage("Index.html", pageVariables));
+            resp.getWriter().println(templateProcessor.getPage(INDEX_FILE_NAME, pageVariables));
             resp.setStatus(HttpServletResponse.SC_OK);
             //resp.setStatus(403);
         }

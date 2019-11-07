@@ -11,12 +11,12 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
-class TemplateProcessor {
-    private static final String HTML_DIR = "/";
+public class TemplateProcessor {
+    private static final String HTML_DIR = "/templates";
 
     private final Configuration configuration;
 
-    TemplateProcessor() {
+    public TemplateProcessor() {
         configuration = new Configuration(Configuration.VERSION_2_3_28);
         //configuration.setDirectoryForTemplateLoading(new File(HTML_DIR));  // for directory
         configuration.setClassForTemplateLoading(this.getClass(), HTML_DIR); // for resource

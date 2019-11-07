@@ -17,6 +17,8 @@
     <form action="/user" method="GET">
         <input type="submit" value="Get all user">
     </form>
-    <p>${users}</p>
+    <#list users as user>
+        <p>${user}</p>
+    </#list>
 </body>
 </html>

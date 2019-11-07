@@ -19,6 +19,7 @@
         <module>hw17orm</module>
         <module>hw19hibernate</module>
         <module>hw23webserver</module>
+        <module>hw24di</module>
     </modules>
 
     <properties>
