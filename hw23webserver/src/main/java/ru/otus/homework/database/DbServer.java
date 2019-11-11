@@ -7,16 +7,12 @@ import ru.otus.homework.model.User;
 
 
 public class DbServer {
-    private static SessionFactory sessionFactory = null;
+    public SessionFactory sessionFactory;
     private static Logger logger = LoggerFactory.getLogger(DbServer.class);
 
 
     public DbServer() {
         sessionFactory = this.createSessionFactory();
-    }
-
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
     }
 
     //create session factory

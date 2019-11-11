@@ -31,7 +31,7 @@ public class WebApp {
     }
 
     public void appConfig(){
-        SessionManagerHibernate sessionManagerHibernate = new SessionManagerHibernate(DbServer.getSessionFactory());
+        SessionManagerHibernate sessionManagerHibernate = new SessionManagerHibernate(dbServer.sessionFactory);
         UserDao userDao = new UserDaoImpl(sessionManagerHibernate);
         UserService userService = new UserServiceImpl(userDao);
 

@@ -14,11 +14,11 @@ import java.util.Map;
 public class LogInServlet extends HttpServlet {
 
     private static final int EXPIRE_INTERVAL = 90; //seconds
-    private final String CONTENT_TYPE = "text/html;charset=utf-8";
-    private final String USER_NOT_FOUND_TEXT = "User is not found";
-    private final String ADMIN_PAGE_PATH = "hw23webserver/src/main/resources/templates/Admin.html";
-    private final String INDEX_FILE_NAME = "LogIn.html";
-    private final String TEMPLATE_VARIABLE_STATUS = "logInStatus";
+    private static final String CONTENT_TYPE = "text/html;charset=utf-8";
+    private static final String USER_NOT_FOUND_TEXT = "User is not found";
+    private static final String ADMIN_RESOURCE = "templates/Admin.html";
+    private static final String INDEX_FILE_NAME = "LogIn.html";
+    private static final String TEMPLATE_VARIABLE_STATUS = "logInStatus";
 
     private final TemplateProcessor templateProcessor;
     private final UserService userService;
@@ -39,12 +39,12 @@ public class LogInServlet extends HttpServlet {
             resp.setContentType(CONTENT_TYPE);
             resp.setStatus(HttpStatus.OK_200);
 
-            FileInputStream inputStream = new FileInputStream(ADMIN_PAGE_PATH);
+
+            ClassLoader classLoader = this.getClass().getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream(ADMIN_RESOURCE);
             byte[] buf = new byte[inputStream.available()];
             inputStream.read(buf);
-            //File file = new File(ADMIN_PAGE_PATH);
-            //byte[] bytes = Files.readAllBytes(file.toPath());
-            resp.getWriter().println(new String(buf));//new String(bytes));
+            resp.getWriter().println(new String(buf));
         } else {
             Map<String, Object> pageVariables = new HashMap<>();
             pageVariables.put(TEMPLATE_VARIABLE_STATUS, USER_NOT_FOUND_TEXT);
@@ -52,7 +52,6 @@ public class LogInServlet extends HttpServlet {
             resp.setContentType(CONTENT_TYPE);
             resp.getWriter().println(templateProcessor.getPage(INDEX_FILE_NAME, pageVariables));
             resp.setStatus(HttpServletResponse.SC_OK);
-            //resp.setStatus(403);
         }
 
     }
