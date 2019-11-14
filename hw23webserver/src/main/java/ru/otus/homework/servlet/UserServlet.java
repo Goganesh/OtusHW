@@ -17,7 +17,7 @@ public class UserServlet extends HttpServlet {
 
     private static final String CONTENT_TYPE = "text/html;charset=utf-8";
     private static final String TEMPLATE_VARIABLE_USERS = "users";
-    private static final String TEMPLATE_VARIABLE_STATUS = "createStatus";
+    private static final String TEMPLATE_VARIABLE_STATUS = "status";
     private static final String ADMIN_FILE_NAME = "Admin.html";
     private static final String USER_CREATED_TEXT = "User is created";
     private static final String USER_EXISTS_TEXT = "User is already exist";
