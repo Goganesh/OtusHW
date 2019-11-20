@@ -30,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
         var freeMarkerConfigurer = new FreeMarkerConfigurer();
 
         freemarker.template.Configuration configuration = new freemarker.template.Configuration();
-        configuration.setDirectoryForTemplateLoading(new File("C:\\Program Files\\OtusHW\\hw24di\\src\\main\\resources\\templates"));
+        configuration.setDirectoryForTemplateLoading(new File("hw24di\\src\\main\\resources\\templates"));
         freeMarkerConfigurer.setConfiguration(configuration);
         return freeMarkerConfigurer;
     }

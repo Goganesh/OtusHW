@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.homework.api.service.DbServiceException;
+import ru.otus.homework.api.service.UserService;
 import ru.otus.homework.model.User;
 import ru.otus.homework.service.UserServiceImpl;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class AdminController{
     private final String USER_CREATED_TEXT = "User is created";
     private final String USER_EXISTS_TEXT = "User is already exist";
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     public AdminController(UserServiceImpl userService) {
         this.userService = userService;

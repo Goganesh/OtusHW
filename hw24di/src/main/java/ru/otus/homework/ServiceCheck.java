@@ -13,17 +13,17 @@ import javax.annotation.PostConstruct;
 @Service
 public class ServiceCheck {
 
-    private UserDaoImpl e;
+    private UserDao dao;
 
-    public ServiceCheck(UserDaoImpl e) {
-        this.e = e;
+    public ServiceCheck(UserDaoImpl dao) {
+        this.dao = dao;
     }
 
-    /*@PostConstruct
+    @PostConstruct
     public void init(){
-        User user = new User("dfdf","dfdf");
-        UserServiceImpl userService = new UserServiceImpl(e);
+        User user = new User("Admin","Admin");
+        UserServiceImpl userService = new UserServiceImpl(dao);
 
         System.out.println(userService.saveUser(user));
-    }*/
+    }
 }

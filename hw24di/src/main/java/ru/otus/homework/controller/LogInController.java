@@ -3,6 +3,7 @@ package ru.otus.homework.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.otus.homework.api.service.UserService;
 import ru.otus.homework.model.User;
 import ru.otus.homework.service.UserServiceImpl;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class LogInController {
     private static final String INDEX_FILE_NAME = "Index";
     private static final String TEMPLATE_VARIABLE_STATUS = "status";
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     public LogInController(UserServiceImpl userService) {
         this.userService = userService;

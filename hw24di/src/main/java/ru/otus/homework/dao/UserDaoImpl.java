@@ -36,38 +36,46 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> listByCriteria( Criterion criterion) {
+        sessionManager.beginSession();
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
+        List<User> usersList;
         try {
             Criteria criteria = currentSession.getHibernateSession().createCriteria(User.class);
             if (criterion != null) {
                 criteria.add(criterion);
             }
-            List<User> usersList = criteria.list();
-            return usersList;
+            usersList = criteria.list();
         }catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new DaoException(e);
         }
+        sessionManager.close();
+        return usersList;
     }
 
     @Override
     public User findByCriteria(Criterion criterion) {
+        sessionManager.beginSession();
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
+        User user;
         try {
             Criteria criteria = currentSession.getHibernateSession().createCriteria(User.class);
             if (criterion != null) {
                 criteria.add(criterion);
             }
-            User user = findByCriteria(criteria);
-            return user;
+            user = findByCriteria(criteria);
+
         }catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new DaoException(e);
         }
+        sessionManager.close();
+        return user;
     }
 
     @Override
     public User findByCriteria(Criteria executableCriteria) {
+        sessionManager.beginSession();
         List<User> results = executableCriteria.list();
         if (results.isEmpty()) {
             return null;
@@ -75,54 +83,73 @@ public class UserDaoImpl implements UserDao {
             if (results.size() > 1) {
                 throw new NonUniqueObjectException("Found more than one result through query", results.get(0).toString(), "");
             }
+            sessionManager.close();
             return results.get(0);
         }
     }
 
     @Override
     public User findById(long id) {
+        sessionManager.beginSession();
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
+        User user;
         try {
-            return currentSession.getHibernateSession().find(User.class, id);
+            user = currentSession.getHibernateSession().find(User.class, id);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new DaoException(e);
         }
+        sessionManager.close();
+        return user;
     }
 
     @Override
     public long saveUser(User user) {
+        sessionManager.beginSession();
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
+        long id;
         try {
             Session hibernateSession = currentSession.getHibernateSession();
             hibernateSession.save(user);
-            return user.getId();
+            sessionManager.commitSession();
+            id = user.getId();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            sessionManager.rollbackSession();
             throw new DaoException(e);
         }
+        sessionManager.close();
+        return id;
     }
 
     @Override
     public void updateUser(User user) {
+        sessionManager.beginSession();
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
             currentSession.getHibernateSession().update(user);
+            sessionManager.commitSession();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            sessionManager.rollbackSession();
             throw new DaoException(e);
         }
+        sessionManager.close();
     }
 
     @Override
     public void deleteUser(User user) {
+        sessionManager.beginSession();
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
             currentSession.getHibernateSession().delete(user);
+            sessionManager.commitSession();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            sessionManager.rollbackSession();
             throw new DaoException(e);
         }
+        sessionManager.close();
     }
 
     @Override
