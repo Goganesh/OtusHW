@@ -19,11 +19,11 @@ public class ServiceCheck {
         this.dao = dao;
     }
 
-    @PostConstruct
+    /*@PostConstruct
     public void init(){
         User user = new User("Admin","Admin");
         UserServiceImpl userService = new UserServiceImpl(dao);
 
         System.out.println(userService.saveUser(user));
-    }
+    }*/
 }

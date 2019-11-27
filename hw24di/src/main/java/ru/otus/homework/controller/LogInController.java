@@ -22,13 +22,13 @@ public class LogInController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String home(Model model) {
         model.addAttribute("status", "");
         return "Index";
     }
 
-    @RequestMapping(value = "/signin", method = RequestMethod.POST)
+    @RequestMapping(value = "signin", method = RequestMethod.POST)
     public String logIn(@RequestParam(value = "login") String login, @RequestParam(value = "password") String password, Model model) {
         if (userService.authenticate(login, password)) {
             model.addAttribute(TEMPLATE_VARIABLE_STATUS,"");
