@@ -1,6 +1,10 @@
 package ru.otus.homework.configuration;
 
 import lombok.var;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -10,6 +14,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import java.io.IOException;
 
+/*
 @org.springframework.context.annotation.Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"ru.otus.homework.configuration"})
@@ -36,7 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
         return freeMarkerConfigurer;
     }
 }
-/*
+*/
 import lombok.RequiredArgsConstructor;
         import org.jetbrains.annotations.NotNull;
         import org.springframework.context.ApplicationContext;
@@ -54,33 +59,36 @@ import lombok.RequiredArgsConstructor;
 @EnableWebMvc
 @Configuration
 @ComponentScan
-@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
+
+    public WebConfig(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
-        var templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("classpath:/WEB-INF/templates/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCacheable(true);
-        templateResolver.setCharacterEncoding("UTF-8");
-        return templateResolver;
+        SpringResourceTemplateResolver htmlResolver = new SpringResourceTemplateResolver();
+        htmlResolver.setApplicationContext(this.applicationContext);
+        htmlResolver.setPrefix("/WEB-INF/templates/");
+        htmlResolver.setSuffix(".html");
+        htmlResolver.setTemplateMode(TemplateMode.HTML);
+        htmlResolver.setCacheable(false);
+        htmlResolver.setCharacterEncoding("UTF-8");
+        return htmlResolver;
     }
 
     @Bean
     public SpringTemplateEngine templateEngine() {
-        var templateEngine = new SpringTemplateEngine();
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         return templateEngine;
     }
 
     @Bean
     public ThymeleafViewResolver viewResolver() {
-        var viewResolver = new ThymeleafViewResolver();
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setOrder(1);
         viewResolver.setCharacterEncoding("UTF-8");
@@ -93,4 +101,22 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceHandler("/**")
                 .addResourceLocations("/WEB-INF/static/");
     }
-}*/
+
+    /*@Bean
+    @Scope("singleton")
+    public SessionFactory sessionFactory() {
+        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration()
+                .configure("hibernate.cfg.xml");
+
+        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties())
+                .build();
+
+        Metadata metadata = new MetadataSources(serviceRegistry)
+                .addAnnotatedClass(ru.otus.userspace.User.class)
+                .getMetadataBuilder()
+                .build();
+
+        return metadata.getSessionFactoryBuilder().build();
+    }*/
+}
