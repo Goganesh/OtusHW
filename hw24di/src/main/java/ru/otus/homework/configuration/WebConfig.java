@@ -10,9 +10,9 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import java.io.IOException;
 
-@org.springframework.context.annotation.Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"ru.otus.homework.configuration"})
+@Configuration
+@ComponentScan(basePackages = {"ru.otus.homework"})
 public class WebConfig implements WebMvcConfigurer {
 
 
@@ -26,13 +26,18 @@ public class WebConfig implements WebMvcConfigurer {
         var resolver = new FreeMarkerViewResolver();
         resolver.setCache(true);
         resolver.setSuffix(".html");
+
+        // https://stackoverflow.com/questions/1249205/how-to-get-the-request-context-in-a-freemaker-template-in-spring
+        resolver.setRequestContextAttribute("rc");
+
         return resolver;
     }
 
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() throws IOException {
+        // https://www.baeldung.com/freemarker-in-spring-mvc-tutorial
         var freeMarkerConfigurer = new FreeMarkerConfigurer();
-        freeMarkerConfigurer.setTemplateLoaderPath("classpath:/WEB-INF/templates/");
+        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/templates/");
         return freeMarkerConfigurer;
     }
 }
