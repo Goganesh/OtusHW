@@ -54,6 +54,16 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
+  <!--      <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>17.0.0</version>
+            <scope>provided</scope>
+        </dependency>-->
 
         <!--Dependency for Freemarker-->
         <dependency>
@@ -73,6 +83,10 @@
 
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
 
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
