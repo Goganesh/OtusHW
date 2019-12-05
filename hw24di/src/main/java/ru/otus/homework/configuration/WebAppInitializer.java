@@ -1,7 +1,6 @@
 package ru.otus.homework.configuration;
 
 import javax.servlet.Filter;
-
 import lombok.var;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

@@ -7,7 +7,6 @@ import ru.otus.homework.api.service.UserService;
 import ru.otus.homework.dao.UserDaoImpl;
 import ru.otus.homework.model.User;
 import ru.otus.homework.service.UserServiceImpl;
-
 import javax.annotation.PostConstruct;
 
 @Service
@@ -19,11 +18,11 @@ public class ServiceCheck {
         this.dao = dao;
     }
 
-    /*@PostConstruct
+    @PostConstruct
     public void init(){
         User user = new User("Admin","Admin");
         UserServiceImpl userService = new UserServiceImpl(dao);
 
         System.out.println(userService.saveUser(user));
-    }*/
+    }
 }
