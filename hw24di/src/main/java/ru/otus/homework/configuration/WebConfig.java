@@ -1,10 +1,6 @@
 package ru.otus.homework.configuration;
 
 import lombok.var;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -14,10 +10,9 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import java.io.IOException;
 
-/*
-@org.springframework.context.annotation.Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"ru.otus.homework.configuration"})
+@Configuration
+@ComponentScan(basePackages = {"ru.otus.homework"})
 public class WebConfig implements WebMvcConfigurer {
 
 
@@ -31,17 +26,22 @@ public class WebConfig implements WebMvcConfigurer {
         var resolver = new FreeMarkerViewResolver();
         resolver.setCache(true);
         resolver.setSuffix(".html");
+
+        // https://stackoverflow.com/questions/1249205/how-to-get-the-request-context-in-a-freemaker-template-in-spring
+        resolver.setRequestContextAttribute("rc");
+
         return resolver;
     }
 
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() throws IOException {
+        // https://www.baeldung.com/freemarker-in-spring-mvc-tutorial
         var freeMarkerConfigurer = new FreeMarkerConfigurer();
-        freeMarkerConfigurer.setTemplateLoaderPath("classpath:/WEB-INF/templates/");
+        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/templates/");
         return freeMarkerConfigurer;
     }
 }
-*/
+/*
 import lombok.RequiredArgsConstructor;
         import org.jetbrains.annotations.NotNull;
         import org.springframework.context.ApplicationContext;
@@ -59,36 +59,33 @@ import lombok.RequiredArgsConstructor;
 @EnableWebMvc
 @Configuration
 @ComponentScan
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final ApplicationContext applicationContext;
-
-    public WebConfig(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
+    ApplicationContext applicationContext;
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
-        SpringResourceTemplateResolver htmlResolver = new SpringResourceTemplateResolver();
-        htmlResolver.setApplicationContext(this.applicationContext);
-        htmlResolver.setPrefix("/WEB-INF/templates/");
-        htmlResolver.setSuffix(".html");
-        htmlResolver.setTemplateMode(TemplateMode.HTML);
-        htmlResolver.setCacheable(false);
-        htmlResolver.setCharacterEncoding("UTF-8");
-        return htmlResolver;
+        var templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setApplicationContext(applicationContext);
+        templateResolver.setPrefix("classpath:/WEB-INF/templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCacheable(true);
+        templateResolver.setCharacterEncoding("UTF-8");
+        return templateResolver;
     }
 
     @Bean
     public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        var templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         return templateEngine;
     }
 
     @Bean
     public ThymeleafViewResolver viewResolver() {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        var viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setOrder(1);
         viewResolver.setCharacterEncoding("UTF-8");
@@ -101,22 +98,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceHandler("/**")
                 .addResourceLocations("/WEB-INF/static/");
     }
-
-    /*@Bean
-    @Scope("singleton")
-    public SessionFactory sessionFactory() {
-        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration()
-                .configure("hibernate.cfg.xml");
-
-        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties())
-                .build();
-
-        Metadata metadata = new MetadataSources(serviceRegistry)
-                .addAnnotatedClass(ru.otus.userspace.User.class)
-                .getMetadataBuilder()
-                .build();
-
-        return metadata.getSessionFactoryBuilder().build();
-    }*/
-}
+}*/
