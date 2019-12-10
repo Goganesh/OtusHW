@@ -21,6 +21,7 @@
         <module>hw23webserver</module>
         <module>hw24di</module>
         <module>Test</module>
+        <module>hw21cache</module>
     </modules>
 
     <properties>
