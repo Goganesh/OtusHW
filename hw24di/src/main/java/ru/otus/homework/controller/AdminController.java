@@ -26,7 +26,7 @@ public class AdminController{
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "users", method = RequestMethod.GET)
     public String getUsers(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute(TEMPLATE_VARIABLE_USERS, users);
@@ -35,7 +35,7 @@ public class AdminController{
         return ADMIN_FILE_NAME;
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @RequestMapping(value = "user", method = RequestMethod.POST)
     public String logIn(@RequestParam(value = "login") String login, @RequestParam(value = "password") String password, Model model) {
         model.addAttribute(TEMPLATE_VARIABLE_USERS, new ArrayList<User>());
         try {

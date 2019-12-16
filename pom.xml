@@ -20,6 +20,7 @@
         <module>hw19hibernate</module>
         <module>hw23webserver</module>
         <module>hw24di</module>
+        <module>hw21cache</module>
         <module>hw27threads</module>
     </modules>
 
@@ -29,7 +30,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <com.google.guava.version>27.1-jre</com.google.guava.version>
-        <sprint-boot.version>2.1.4.RELEASE</sprint-boot.version>
+        <sprint-boot.version>2.2.0.RELEASE</sprint-boot.version>
     </properties>
 
     <dependencyManagement>
