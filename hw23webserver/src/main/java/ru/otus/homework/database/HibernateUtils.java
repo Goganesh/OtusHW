@@ -7,7 +7,10 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-public class HibernateUtils {
+public final class HibernateUtils {
+
+    private HibernateUtils(){}
+
     public static SessionFactory buildSessionFactory(String configResourceFileName, Class ...annotatedClasses){
         Configuration configuration = new Configuration().configure(configResourceFileName);
         MetadataSources metadataSources = new MetadataSources(createServiceRegistry(configuration));
