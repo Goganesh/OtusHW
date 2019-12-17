@@ -1,39 +1,20 @@
 package ru.otus.homework.model;
 
+import lombok.Data;
 
-import lombok.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-
+@Entity(name = "Users")
 @Data
-@Entity
-@Table(name = "Users")
-@NoArgsConstructor
-public class User {
+public final class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-    //unique
+    @GeneratedValue
+    private long id;
 
-    @Column(name = "login")
     private String login;
 
-    @Column(name = "password")
     private String password;
-
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

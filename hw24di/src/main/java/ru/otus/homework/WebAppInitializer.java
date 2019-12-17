@@ -1,12 +1,12 @@
-package ru.otus.homework.configuration;
+package ru.otus.homework;
 
-import javax.servlet.Filter;
-import lombok.var;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import ru.otus.homework.WebConfig;
+
+import javax.servlet.Filter;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-    //https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -25,7 +25,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Filter[] getServletFilters() {
-        var encodingFilter = new CharacterEncodingFilter();
+        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
         encodingFilter.setEncoding("UTF-8");
         encodingFilter.setForceEncoding(true);
         return new Filter[]{encodingFilter};
