@@ -20,7 +20,7 @@
         <module>hw19hibernate</module>
         <module>hw23webserver</module>
         <module>hw24di</module>
-        <module>Test</module>
+        <module>hw05gc</module>
     </modules>
 
     <properties>
