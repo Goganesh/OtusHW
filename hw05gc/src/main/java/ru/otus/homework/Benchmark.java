@@ -1,7 +1,8 @@
 package ru.otus.homework;
 
 import com.sun.management.GarbageCollectionNotificationInfo;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
 import javax.management.openmbean.CompositeData;
@@ -13,6 +14,7 @@ import java.util.AbstractMap.SimpleEntry;
 public class Benchmark implements BenchmarkMBean {
 
     public final static double MINUTES_IN_MILLISECOND = 1.66667e-5;
+    private static final Logger LOGGER =  LoggerFactory.getLogger(Benchmark.class);
 
     private volatile int size = 0;
     private ArrayList<Integer> testList = new ArrayList<>();
@@ -34,7 +36,7 @@ public class Benchmark implements BenchmarkMBean {
         List<GarbageCollectorMXBean> gcbeans = java.lang.management.ManagementFactory.getGarbageCollectorMXBeans();
         for (GarbageCollectorMXBean gcbean : gcbeans) {
             NotificationEmitter emitter = (NotificationEmitter) gcbean;
-            System.out.println(gcbean.getName());
+            LOGGER.info(gcbean.getName());
 
             NotificationListener listener = (notification, handback) -> {
                 if (notification.getType().equals(GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION)) {
@@ -54,11 +56,10 @@ public class Benchmark implements BenchmarkMBean {
 
                     results.put(gcName, new SimpleEntry<Integer, Double>(totalGCcount, totalGCDuration));
 
-                    System.out.println(gctype + ": - "
+                    LOGGER.info(gctype + ": - "
                             + info.getGcInfo().getId() + ", "
                             + info.getGcName()
                             + " (from " + info.getGcCause() + ") " + duration + " milliseconds");
-
                 }
             };
 

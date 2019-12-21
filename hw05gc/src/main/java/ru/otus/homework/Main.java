@@ -1,15 +1,10 @@
 package ru.otus.homework;
 
-import com.sun.management.GarbageCollectionNotificationInfo;
-
 import javax.management.MBeanServer;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationListener;
 import javax.management.ObjectName;
-import javax.management.openmbean.CompositeData;
-import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VM options:
@@ -25,8 +20,10 @@ import java.util.List;
  */
 
 public class Main {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) throws Exception {
-        //System.out.println("PID: " + ManagementFactory.getRuntimeMXBean().getPid());
+        LOGGER.info("PID: " + ManagementFactory.getRuntimeMXBean().getName());
 
         int size = 5 * 1000 * 1000;
 
@@ -40,7 +37,7 @@ public class Main {
             mbean.installGCMonitoring();
             mbean.run();
         } catch (OutOfMemoryError e){
-            System.out.println("[Application has crashed with OOM]");
+            LOGGER.info("[Application has crashed with OOM]");
             e.printStackTrace();
         } finally {
             BenchmarkResult bResult = mbean.getResult();
