@@ -7,8 +7,7 @@ import ru.otus.homework.annotation.NoAnnotationException;
 import ru.otus.homework.api.dao.Dao;
 import ru.otus.homework.api.service.DbExecutor;
 import ru.otus.homework.api.sessionmanager.SessionManager;
-import ru.otus.homework.dao.DaoRepository;
-import ru.otus.homework.model.Account;
+import ru.otus.homework.dao.DaoImpl;
 import ru.otus.homework.model.User;
 import ru.otus.homework.server.DataSourceH2;
 import ru.otus.homework.sessionmanager.SessionManagerJdbc;
@@ -17,20 +16,17 @@ import static org.junit.Assert.*;
 
 public class DbExecutorImplTest {
     private SessionManager sessionManager;
-    private Dao daoRepository;
     private DbExecutor<User> dbExecutor;
 
     @Before
     public void before(){
         sessionManager = new SessionManagerJdbc(new DataSourceH2());
-        daoRepository = new DaoRepository<User>(sessionManager);
-        dbExecutor = new DbExecutorImpl<User>(daoRepository);
+        dbExecutor = new DbExecutorImpl<User>(sessionManager);
     }
 
     @After
     public void after(){
         sessionManager = null;
-        daoRepository = null;
         dbExecutor = null;
     }
 
@@ -46,7 +42,7 @@ public class DbExecutorImplTest {
         assertTrue(loadUser.getId() == id && loadUser.getAge() == age && loadUser.getName().equals(name));
 
         String newName = "Super Georgy";
-        int newAge = 500;
+        int newAge = age + 50;
         loadUser.setName(newName);
         loadUser.setAge(newAge);
         dbExecutor.update(loadUser);
