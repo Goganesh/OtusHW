@@ -20,6 +20,7 @@
         <module>hw19hibernate</module>
         <module>hw23webserver</module>
         <module>hw24di</module>
+        <module>hw05gc</module>
         <module>hw21cache</module>
         <module>hw27threads</module>
     </modules>
